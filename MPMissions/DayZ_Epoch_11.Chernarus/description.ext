@@ -560,7 +560,7 @@ class CfgSounds
 //Snap Build
 #include "scripts\snap_pro\snappoints.hpp"
 //multi character select
-#include "RscDisplayCharacterSelect.hpp"
+//#include "RscDisplayCharacterSelect.hpp"
 //Config based traders
 #include "CfgServerTrader\cfgServerTrader.hpp"
 //Alchemy Building
