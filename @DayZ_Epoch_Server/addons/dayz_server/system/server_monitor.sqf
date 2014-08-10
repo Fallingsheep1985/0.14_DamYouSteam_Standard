@@ -86,6 +86,7 @@ if (isServer && isNil "sm_done") then {
 	
 	// # NOW SPAWN OBJECTS #
 	_totalvehicles = 0;
+	PVDZE_EvacChopperFields = [];
 	{
 		_idKey = 		_x select 1;
 		_type =			_x select 2;
@@ -164,6 +165,9 @@ if (isServer && isNil "sm_done") then {
 			_object setposATL _pos;
 			_object setDamage _damage;
 
+			if ((typeOf _object) == "HeliHRescue") then {
+				PVDZE_EvacChopperFields set [count PVDZE_EvacChopperFields, _object];
+			};
 			
 			if ((typeOf _object) in dayz_allowedObjects) then {
 				if (DZE_GodModeBase) then {
@@ -349,8 +353,6 @@ if (isServer && isNil "sm_done") then {
 	nul = [7, 5, 700, 0, 0.99, 'center', 4000, true, false, false, 5, 1]spawn server_spawnAN2CrashSite;
 	//AN2 Carpackages
 	nul = [6, 3, (50*60), (15*60), 0.75, 'center', 8000, true, false, 2, 3, 1] spawn server_spawnAN2;
-	//Air Raid
-	nul = [] spawn server_airRaid;
 	if (isDedicated) then {
 		// Epoch Events
 		_id = [] spawn server_spawnEvents;
@@ -406,6 +408,32 @@ if (isServer && isNil "sm_done") then {
 		dayzInfectedCamps = Server_InfectedCamps;
 		publicVariable "dayzInfectedCamps";
 	};	
+	
+	if (isServer && (isNil "EvacServerPreload")) then {
+    publicVariable "PVDZE_EvacChopperFields";
+    
+    ON_fnc_evacChopperFieldsUpdate = {
+        private ["_action","_targetField"];
+        _action = _this select 0;
+        _targetField = _this select 1;
+        
+        if (_action == "add") then {
+            PVDZE_EvacChopperFields = PVDZE_EvacChopperFields + [_targetField];
+        };
+        
+        if (_action == "rem") then {
+            PVDZE_EvacChopperFields = PVDZE_EvacChopperFields - [_targetField];
+        };
+        
+        publicVariable "PVDZE_EvacChopperFields";
+    };
+
+    "PVDZE_EvacChopperFieldsUpdate" addPublicVariableEventHandler {(_this select 1) spawn ON_fnc_evacChopperFieldsUpdate};
+
+    EvacServerPreload = true;
+};
+
+	
 	
 	allowConnection = true;
 	

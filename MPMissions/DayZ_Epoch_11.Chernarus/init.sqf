@@ -97,6 +97,7 @@ dayz_fullMoonNights = true;
 
 //Load in compiled functions
 call compile preprocessFileLineNumbers "init\variables.sqf";				//Initilize the Variables (IMPORTANT: Must happen very early)
+call compile preprocessFileLineNumbers "scripts\JAEM\variables.sqf";
 progressLoadingScreen 0.1;
 call compile preprocessFileLineNumbers "fixes\publicEH.sqf";	
 progressLoadingScreen 0.2;
@@ -132,7 +133,7 @@ if (!isDedicated) then {
 	
 	//Run the player monitor
 	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
-	_playerMonitor = 	 execVM "\z\addons\dayz_code\system\player_monitor.sqf";	
+	_playerMonitor = 	 execVM "fixes\player_monitor.sqf";	
 	
 	if(VASPScript)then{
 		_nil =  execVM "scripts\VASP\VASP_init.sqf";
@@ -249,6 +250,11 @@ if(ServicePointScript)then{
 		execVM "scripts\ServicePoints\service_point.sqf";
 	};
 };
+if(JAEMScript)then{
+	if (!isDedicated) then {
+		execVM "scripts\JAEM\EvacChopper_init.sqf";
+	};
+};
 if(BaseJumpScript)then{
 	if (!isDedicated) then {
 		execVM "scripts\BaseJump\baseJump.sqf";
@@ -274,8 +280,9 @@ waitUntil {!isNil "PVDZE_plr_LoginRecord"};
 if ((!isDedicated) && (dayzPlayerLogin2 select 2)) then {call espawn;};
 
 //wait before admin script is active
-sleep 30;
+sleep 15;
 if(adminScript)then{
 	// Epoch Admin Tools
 	[] execVM "admintools\Activate.sqf";
+	[] execVM "admintools\tools\adminbuild\keypress.sqf";
 };

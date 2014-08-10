@@ -9,6 +9,7 @@ BIS_MPF_remoteExecutionServer = {
 DeadPlayerPlotObjects = [];
 
 BIS_Effects_Burn =				{};
+server_playerCharacters =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_playerCharacters.sqf";
 server_playerLogin =			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_playerLogin.sqf";
 server_playerSetup =			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_playerSetup.sqf";
 server_onPlayerDisconnect = 	compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_onPlayerDisconnect.sqf";
