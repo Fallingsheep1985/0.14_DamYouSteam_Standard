@@ -1,11 +1,15 @@
 waitUntil {!isNil "dayz_animalCheck"};
 sleep 1;
-diag_log ["Trade from vehicle loaded!"];
-
 /*    *******************************************************************************************************************************************   */
 /*    Turn debugging functionality on or off.                                                                                                       */
 /*    *******************************************************************************************************************************************   */
-tfv_DEBUGGING = true;
+tfv_DEBUGGING = false;
+
+/*    *******************************************************************************************************************************************   */
+/*    Abilities to sell from vehicle and backpack.                                                                                                  */
+/*    *******************************************************************************************************************************************   */
+tfv_VEHICLE = true;
+tfv_BACKPACK = true;
 
 /*    *******************************************************************************************************************************************   */
 /*    How many weapons will be sold per cycle.                                                                                                      */
@@ -42,16 +46,74 @@ tfv_TRADERS_ITEMS = [
 ["Dr_Hladik_EP1",["ItemAntibiotic" ,"ItemBandage" ,"ItemBloodbag" ,"ItemEpinephrine" ,"ItemHeatPack" ,"ItemMorphine" ,"ItemPainkiller" ,"HandChemBlue" ,"HandChemGreen" ,"HandChemRed" ,"FlareGreen_M203" ,"FlareWhite_M203" ,"HandRoadFlare" ,"SmokeShell" ,"SmokeShellGreen" ,"SmokeShellRed"],["magazines"],0],
 ["Doctor",["ItemAntibiotic" ,"ItemBandage" ,"ItemBloodbag" ,"ItemEpinephrine" ,"ItemHeatPack" ,"ItemMorphine" ,"ItemPainkiller" ,"HandChemBlue" ,"HandChemGreen" ,"HandChemRed" ,"FlareGreen_M203" ,"FlareWhite_M203" ,"HandRoadFlare" ,"SmokeShell" ,"SmokeShellGreen" ,"SmokeShellRed"],["magazines"],0],
 ["GUE_Woodlander2",["ItemKiloHemp" ,"ItemRadio" ,"Saiga12K" ,"m8_compact" ,"m8_sharpshooter" ,"m8_holo_sd" ,"m8_carbine" ,"M24_des_EP1" ,"VSS_vintorez" ,"SVD_des_EP1" ,"SVD" ,"M8_SAW" ,"MG36" ,"RPK_74" ,"M60A4_EP1_DZE" ,"m240_scoped_EP1_DZE" ,"M249_m145_EP1_DZE" ,"MG36_camo" ,"bizon" ,"M4A1_HWS_GL_SD_Camo" ,"KSVK_DZE" ,"20Rnd_9x39_SP5_VSS" ,"8Rnd_B_Beneli_74Slug" ,"20Rnd_762x51_SB_SCAR" ,"8Rnd_B_Beneli_Pellets" ,"8Rnd_B_Saiga12_74Slug" ,"8Rnd_B_Saiga12_Pellets" ,"20Rnd_B_765x17_Ball" ,"10Rnd_762x54_SVD" ,"5Rnd_762x51_M24" ,"30Rnd_556x45_Stanag" ,"20Rnd_762x51_FNFAL" ,"100Rnd_556x45_BetaCMag" ,"75Rnd_545x39_RPK" ,"64Rnd_9x19_Bizon" ,"5Rnd_127x108_KSVK" ,"HandGrenade_west" ,"PipeBomb" ,"1Rnd_HE_M203" ,"HandGrenade_east"],["magazines","weapons"],-5000]
-]; 
-
-if (tfv_DEBUGGING) then { diag_log "tfv - Traders and their weapons loaded in!"; };
+]; if (tfv_DEBUGGING) then { diag_log "tfv - Traders and their weapons loaded in!"; };
 
 /*    *******************************************************************************************************************************************   */
 /*    List of ALL weapons, regardless of trader, along with the prices.                                                                             */
 /*    *******************************************************************************************************************************************   */
 
 tfv_TRADERS_PRICES = [
-["ItemVault",10000],                                   
+	["G36A_camo",300],
+	["G36C",300],
+	["G36C_camo",300],
+	["G36K_camo",300],
+	["M16A2",100],
+	["M16A2GL",200],
+	["m16a4_acg",200],
+	["M4A1",200],
+	["M4A1_HWS_GL_camo",400],
+	["M4A3_CCO_EP1",500],
+	["M4A1_Aim",400],
+	["Sa58P_EP1",100],
+	["Sa58V_CCO_EP1",400],
+	["Sa58V_EP1",100],
+	["Sa58V_RCO_EP1",400],
+	["AKS_74_kobra",200],
+	["AKS_74_U",100],
+	["AK_47_M",600],
+	["AK_74",100],
+	["FN_FAL",500],
+	["M4A1_AIM_SD_camo",500],
+	["AK_107_kobra",300],
+	["AK_107_GL_kobra",500],
+	["AK_107_pso",500],
+	["AK_107_GL_pso",500],
+	["AKS_74_UN_kobra",500],
+	["SCAR_L_CQC",600],
+	["SCAR_L_CQC_Holo",600],
+	["SCAR_L_STD_Mk4CQT",600],
+	["SCAR_L_STD_EGLM_RCO",800],
+	["SCAR_L_CQC_EGLM_Holo",800],
+	["SCAR_L_STD_HOLO",500],
+	["SCAR_L_CQC_CCO_SD",500],
+	["SCAR_H_CQC_CCO",700],
+	["SCAR_H_CQC_CCO_SD",700],
+	["SCAR_H_STD_EGLM_Spect",800],
+	["BAF_L85A2_RIS_Holo",400],
+	["BAF_L85A2_UGL_Holo",400],
+	["BAF_L85A2_RIS_SUSAT",400],
+	["BAF_L85A2_UGL_SUSAT",400],
+	["BAF_L85A2_RIS_ACOG",400],
+	["BAF_L85A2_UGL_ACOG",400],
+	["AK_74_GL_kobra",400],
+	["m8_carbine_pmc",400],
+	["m8_compact_pmc",400],
+	["m8_holo_sd",400],
+	["M4A1_HWS_GL_SD_Camo",300],
+	["M16A4_GL",300],
+	["M16A4_ACG_GL",400],
+	["M4A1_RCO_GL",300],
+	["M4A1_HWS_GL",300],
+	["G36_C_SD_eotech",300],
+	["G36a",200],
+	["AK_47_S",400],
+	["AK_74_GL",400],
+	["AKS_74_pso",500],
+	["M4A3_RCO_GL_EP1",300],
+	["ItemSodaPepsi",1],
+	["ItemSodaCoke",3],
+	["FoodCanPasta",5], 
+	["ItemVault",10000],                                   
 ["M107_DZ",10000],                             
 ["100Rnd_556x45_BetaCMag",30],                 
 ["100Rnd_762x51_M240",100],                    
@@ -322,8 +384,8 @@ tfv_TRADERS_PRICES = [
 ["VSS_vintorez",400],                          
 ["Winchester1866",10],                         
 ["WoodenArrow",1]
-]; 
-
+	/** Don't include a comma here on the last item **/
+];
 if (tfv_DEBUGGING) then { { diag_log format ["tfv - Price loaded - %1",_x]; } forEach tfv_TRADERS_PRICES; };
 
 /*    *******************************************************************************************************************************************   */
@@ -332,7 +394,6 @@ if (tfv_DEBUGGING) then { { diag_log format ["tfv - Price loaded - %1",_x]; } fo
 
 tfv_TRADERS = [];
 { tfv_TRADERS set [(count tfv_TRADERS),(_x select 0)]; } forEach tfv_TRADERS_ITEMS;
-
 tfv_TRADERS_TYPES = [];
 { tfv_TRADERS_TYPES set [(count tfv_TRADERS_TYPES),(_x select 2)]; } forEach tfv_TRADERS_ITEMS;
 if (tfv_DEBUGGING) then { { diag_log format ["tfv - Trader loaded - %1",_x]; } forEach tfv_TRADERS; };
@@ -351,6 +412,10 @@ tfv_ACTION_INDEX = -1;
 tfv_ACTION = 0;
 tfv_ACTION_INDEX_MAGS = -1;
 tfv_ACTION_MAGS = 0;
+tfv_BACTION_INDEX = -1;
+tfv_BACTION = 0;
+tfv_BACTION_INDEX_MAGS = -1;
+tfv_BACTION_MAGS = 0;
 tfv_IS_TRADING = false;
 tfv_EXCHANGE = [
 	["ItemBriefcase100oz",10000],
@@ -390,7 +455,8 @@ tfv_EXCHANGE = [
 	["ItemSilverBar3oz",3],
 	["ItemSilverBar2oz",2],
     ["ItemSilverBar",1]
-]; if (tfv_DEBUGGING) then { { diag_log format ["tfv - Exchange loaded - %1",_x]; } forEach tfv_EXCHANGE; };
+]; 
+if (tfv_DEBUGGING) then { { diag_log format ["tfv - Exchange loaded - %1",_x]; } forEach tfv_EXCHANGE; };
 
 /*    *******************************************************************************************************************************************   */
 /*    Functions.                                                                                                                                    */
@@ -409,6 +475,15 @@ tfv_fnc_checkTradeMags = compile preprocessFileLineNumbers "scripts\TradeFromVeh
 tfv_fnc_aConcatMags =    compile preprocessFileLineNumbers "scripts\TradeFromVehicle\functions\fnc_aConcatMags.sqf";
 tfv_fnc_getStepsMags =   compile preprocessFileLineNumbers "scripts\TradeFromVehicle\functions\fnc_getStepsMags.sqf";
 tfv_fnc_payTradem =      compile preprocessFileLineNumbers "scripts\TradeFromVehicle\functions\fnc_payTradem.sqf";
+
+/** Sell from Backpack addition **/
+tfv_SALE_SUCCESS_BP_STRING = "Sold %1 weapons from your backpack";
+tfv_SALE_SUCCESS_BP_STRING_MAGS = "Sold %1 items from your backpack";
+tfv_NO_BP_WEAPONS = "There is no weapons inside your backpack (%1)";
+tfv_NO_BP_MAGAZINES = "There is no items inside your backpack (%1)";
+tfv_fnc_payTradeBpm =      compile preprocessFileLineNumbers "scripts\TradeFromVehicle\functions\fnc_payTradeBpm.sqf";	// Needed alot more code to count magazine round status
+[] execVM "scripts\TradeFromVehicle\backpack_monitor.sqf";
+/** Sell from Backpack addition **/
 
 /*    *******************************************************************************************************************************************   */
 /*    Init file finished. Start monitor script.    */    [] ExecVM "scripts\TradeFromVehicle\monitor.sqf";

@@ -9,6 +9,7 @@ BIS_MPF_remoteExecutionServer = {
 DeadPlayerPlotObjects = [];
 
 BIS_Effects_Burn =				{};
+server_playerCharacters =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_playerCharacters.sqf";
 server_playerLogin =			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_playerLogin.sqf";
 server_playerSetup =			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_playerSetup.sqf";
 server_onPlayerDisconnect = 	compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_onPlayerDisconnect.sqf";
@@ -513,6 +514,72 @@ spawn_mineveins = {
 	};
 };
 
+//Sector FNG inland
+execVM "\z\addons\dayz_server\CustomBuildings\sectorfng\sectorfng_init.sqf";
+
+//IXXO
+execVM "\z\addons\dayz_server\CustomBuildings\balota.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\kamenka.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\Krasno.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\northeast.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\vybor.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\basebor.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\basedichina.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\basenovy.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\Zeleno.sqf";
+
+//Caves
+execVM "\z\addons\dayz_server\CustomBuildings\Prud_Cave.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\North_Cave.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\South_Cave.sqf";
+
+//Kameka mine
+execVM "\z\addons\dayz_server\CustomBuildings\mine_grotte.sqf";//removed ore and added to separate spawn
+execVM "\z\addons\dayz_server\CustomBuildings\mine_grotte_ore.sqf";//ore
+execVM "\z\addons\dayz_server\CustomBuildings\box_la_grotte.sqf";
+
+//CDC Balota + Trader
+execVM "\z\addons\dayz_server\CustomBuildings\Trader_CDC_Balota.sqf";
+
+//Altar
+execVM "\z\addons\dayz_server\CustomBuildings\altar.sqf";
+
+//Golden River MIne
+execVM "\z\addons\dayz_server\CustomBuildings\golden_river_mine.sqf";
+
+//cherno heliport
+execVM "\z\addons\dayz_server\CustomBuildings\heliport.sqf";
+
+//beached aircraft carrier
+execVM "\z\addons\dayz_server\CustomBuildings\aircraftcarrier.sqf";
+
+//BANK
+execVM "\z\addons\dayz_server\CustomBuildings\banks\nbank_novy_sobor.sqf";
+
+//East coast cherno
+execVM "\z\addons\dayz_server\CustomBuildings\Eastcoast.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\Eastcoast2.sqf";
+
+//Black Lake Castle
+execVM "\z\addons\dayz_server\CustomBuildings\blacklakecastle.sqf";
+
+execVM "\z\addons\dayz_server\CustomBuildings\kabinocheckpoint.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\otmel.sqf";
+
+//road from dam to sector FNG
+execVM "\z\addons\dayz_server\CustomBuildings\roadpobeda.sqf";
+
+//Black forest outpost
+execVM "\z\addons\dayz_server\CustomBuildings\blackforestoutpost.sqf";
+
+//Electro
+execVM "\z\addons\dayz_server\CustomBuildings\electro.sqf";
+execVM "\z\addons\dayz_server\CustomBuildings\electroZI.sqf";
+
+//Cherno
+execVM "\z\addons\dayz_server\CustomBuildings\Cherno.sqf";
+
+
 if(isnil "DynamicVehicleDamageLow") then {
 	DynamicVehicleDamageLow = 0;
 };
@@ -604,17 +671,42 @@ dayz_objectUID = {
 
 dayz_objectUID2 = {
 	private["_position","_dir","_key"];
-	_dir = _this select 0;
-	_key = "";
-	_position = _this select 1;
-	{
-		_x = _x * 10;
-		if ( _x < 0 ) then { _x = _x * -10 };
-		_key = _key + str(round(_x));
-	} count _position;
-	_key = _key + str(round(_dir));
+	if((count _this) == 2) then{
+		_dir = _this select 0;
+		_key = "";
+		_position = _this select 1;
+		{
+			_x = _x * 10;
+			if ( _x < 0 ) then { _x = _x * -10 };
+			_key = _key + str(round(_x));
+		} count _position;
+		_key = _key + str(round(_dir));
+	}else{
+		_key = "";
+		_position = _this select 1;
+		{
+			_x = _x * 10;
+			if ( _x < 0 ) then { _x = _x * -10 };
+			_key = _key + str(round(_x));
+		} count _position;
+		
+		_vecCnt = 0;
+		_vector = _this select 2;
+		{
+			_set = _x;
+			{
+				_vecCnt = _vecCnt + (round (_x * 100))
+				
+			} foreach _set;
+			
+		} foreach _vector;
+		if(_vecCnt < 0)then{
+			_vecCnt = ((_vecCnt * -1) * 3);
+		};
+		_key = _key + str(_vecCnt);	
+	};
 	_key
-};
+}; 
 
 dayz_objectUID3 = {
 	private["_position","_dir","_key"];
@@ -935,70 +1027,7 @@ server_logUnlockLockEvent = {
 	};
 };
 
-//Sector FNG inland
-execVM "\z\addons\dayz_server\CustomBuildings\sectorfng\sectorfng_init.sqf";
 
-//IXXO
-execVM "\z\addons\dayz_server\CustomBuildings\balota.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\kamenka.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\Krasno.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\northeast.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\vybor.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\basebor.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\basedichina.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\basenovy.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\Zeleno.sqf";
-
-//Caves
-execVM "\z\addons\dayz_server\CustomBuildings\Prud_Cave.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\North_Cave.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\South_Cave.sqf";
-
-//Kameka mine
-execVM "\z\addons\dayz_server\CustomBuildings\mine_grotte.sqf";//removed ore and added to separate spawn
-execVM "\z\addons\dayz_server\CustomBuildings\mine_grotte_ore.sqf";//ore
-execVM "\z\addons\dayz_server\CustomBuildings\box_la_grotte.sqf";
-
-//CDC Balota + Trader
-execVM "\z\addons\dayz_server\CustomBuildings\Trader_CDC_Balota.sqf";
-
-//Altar
-execVM "\z\addons\dayz_server\CustomBuildings\altar.sqf";
-
-//Golden River MIne
-execVM "\z\addons\dayz_server\CustomBuildings\golden_river_mine.sqf";
-
-//cherno heliport
-execVM "\z\addons\dayz_server\CustomBuildings\heliport.sqf";
-
-//beached aircraft carrier
-execVM "\z\addons\dayz_server\CustomBuildings\aircraftcarrier.sqf";
-
-//BANK
-execVM "\z\addons\dayz_server\CustomBuildings\banks\nbank_novy_sobor.sqf";
-
-//East coast cherno
-execVM "\z\addons\dayz_server\CustomBuildings\Eastcoast.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\Eastcoast2.sqf";
-
-//Black Lake Castle
-execVM "\z\addons\dayz_server\CustomBuildings\blacklakecastle.sqf";
-
-execVM "\z\addons\dayz_server\CustomBuildings\kabinocheckpoint.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\otmel.sqf";
-
-//road from dam to sector FNG
-execVM "\z\addons\dayz_server\CustomBuildings\roadpobeda.sqf";
-
-//Black forest outpost
-execVM "\z\addons\dayz_server\CustomBuildings\blackforestoutpost.sqf";
-
-//Electro
-execVM "\z\addons\dayz_server\CustomBuildings\electro.sqf";
-execVM "\z\addons\dayz_server\CustomBuildings\electroZI.sqf";
-
-//Cherno
-execVM "\z\addons\dayz_server\CustomBuildings\Cherno.sqf";
 
 //Enhanced Spawn Selection
 donorListBase = [

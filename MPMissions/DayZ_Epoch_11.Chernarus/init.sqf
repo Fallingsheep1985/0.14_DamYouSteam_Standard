@@ -65,6 +65,9 @@ DZE_MissionLootTable = true; //Custom Loot Tables
 DZE_selfTransfuse = true; //Self blood bag
 //Config based traders
 DZE_ConfigTrader = true;
+//Vector Build
+DZE_noRotate = []; //Objects that cannot be rotated. Ex: DZE_noRotate = ["VaultStorageLocked"]
+DZE_curPitch = 45; //Starting rotation angle. Only 1, 5, 45, or 90.
 
 DZE_selfTransfuse_Values = [
 6000, //Blood amount
@@ -133,7 +136,7 @@ if (!isDedicated) then {
 	
 	//Run the player monitor
 	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
-	_playerMonitor = 	 execVM "\z\addons\dayz_code\system\player_monitor.sqf";	
+	_playerMonitor = 	 execVM "fixes\player_monitor.sqf";	
 	
 	if(VASPScript)then{
 		_nil =  execVM "scripts\VASP\VASP_init.sqf";
